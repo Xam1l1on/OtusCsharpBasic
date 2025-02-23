@@ -1,10 +1,16 @@
-﻿namespace TaskBot.Core
+﻿using Microsoft.Extensions.Configuration;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+
+namespace TaskBot.Core
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static ITelegramBotClient? _botClient;
+        static async Task Main(string[] args)
         {
-            
+            BotConfiguration botConfig = new BotConfiguration();
+            _botClient = new TelegramBotClient(botConfig.BotToken);
         }
     }
 }
