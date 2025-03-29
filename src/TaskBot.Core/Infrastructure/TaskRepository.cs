@@ -7,7 +7,7 @@ using TaskBot.Core.Models;
 
 namespace TaskBot.Core.Infrastructure
 {
-    internal class TaskRepository
+    internal class TaskRepository : ITaskRepository
     {
         private readonly TaskDbContext _context;
 

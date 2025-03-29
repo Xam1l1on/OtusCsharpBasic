@@ -1,10 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Polling;
+using TaskBot.Core.Application;
+using TaskBot.Core.Infrastructure;
 using TaskBot.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace TaskBot.Core.Infrastructure
 {

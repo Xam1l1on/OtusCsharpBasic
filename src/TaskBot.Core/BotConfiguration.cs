@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace TaskBot.Core
 {
-    class BotConfiguration
+    static class BotConfiguration
     {
-        public string BotToken { get; }
-
-        public BotConfiguration()
-        {
+            /*
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -20,6 +17,12 @@ namespace TaskBot.Core
             IConfiguration configuration = builder.Build();
 
             BotToken = configuration["BotConfiguration:BotToken"] ?? throw new InvalidOperationException("TelegramBotToken is missing in appsettings.json");
+            */
+        public static IConfiguration LoadConfiguration()
+        {
+            return new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
         }
     }
 }

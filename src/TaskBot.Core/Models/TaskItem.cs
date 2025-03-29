@@ -7,7 +7,7 @@
         public string AssignedTo { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public TaskItemType Type { get; set; }
+        public TaskItemType TaskType { get; set; }
     }
     public enum TaskItemType
     {

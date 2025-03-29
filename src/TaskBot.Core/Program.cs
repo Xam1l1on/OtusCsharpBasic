@@ -3,6 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using TaskBot.Core.Application;
+using TaskBot.Core.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using TaskBot.Core.Application.Commands;
+using TaskBot.Core.Helper;
 
 namespace TaskBot.Core
 {
@@ -10,9 +14,7 @@ namespace TaskBot.Core
     {
         static void Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();
+            var configuration = BotConfiguration.LoadConfiguration();
 
             var serviceProvider = ConfigureServices(configuration);
             var bot = serviceProvider.GetRequiredService<ITelegramBotClient>();
@@ -25,20 +27,20 @@ namespace TaskBot.Core
                 new ReceiverOptions(),
                 cts.Token
             );
-            BotConfiguration botConfig = new BotConfiguration();
-            _botClient = new TelegramBotClient(botConfig.BotToken);
-            _updateHandler = new UpdateHandler(_botClient);
-            ReceiverOptions receiverOptions = new()
-            {
-                AllowedUpdates = Array.Empty<Telegram.Bot.Types.Enums.UpdateType>()
-            };
-            using var cts = new CancellationTokenSource();
+            //BotConfiguration botConfig = new BotConfiguration();
+            //_botClient = new TelegramBotClient(botConfig.BotToken);
+            //_updateHandler = new UpdateHandler(_botClient);
+            //ReceiverOptions receiverOptions = new()
+            //{
+            //    AllowedUpdates = Array.Empty<Telegram.Bot.Types.Enums.UpdateType>()
+            //};
+            //using var cts = new CancellationTokenSource();
 
-            _botClient.StartReceiving(
-                updateHandler: _updateHandler,
-                receiverOptions: receiverOptions,
-                cancellationToken: cts.Token
-                );
+            //_botClient.StartReceiving(
+            //    updateHandler: _updateHandler,
+            //    receiverOptions: receiverOptions,
+            //    cancellationToken: cts.Token
+            //    );
             Console.WriteLine("Введите 'stop' в консоль для остановки бота.\n");
             while (true)
             {
@@ -58,13 +60,19 @@ namespace TaskBot.Core
         static ServiceProvider ConfigureServices(IConfiguration configuration)
         {
             var botToken = configuration["BotToken"];
-            var connectionString = configuration["ConnectionStrings:PostgreSQL"];
+            var connectionString = configuration["ConnectionStrings:Psql"];
 
             return new ServiceCollection()
                 .AddSingleton<ITelegramBotClient>(new TelegramBotClient(botToken))
                 .AddSingleton<IBotHandler, BotHandler>()
                 .AddDbContext<TaskDbContext>(options => options.UseNpgsql(connectionString))
+                .AddScoped<ICommandDispatcher, CommandDispatcher>()
                 .AddScoped<ITaskRepository, TaskRepository>()
+                .AddScoped<ICommand, AddTaskCommand>()
+                .AddScoped<ICommand, EditTaskCommand>()
+                .AddScoped<ICommand, CompleteTaskCommand>()
+                .AddScoped<ICommand, DeleteTaskCommand>()
+                .AddScoped<ICommand, ListTaskCommand>()
                 .AddSingleton(configuration)
                 .BuildServiceProvider();
         }
