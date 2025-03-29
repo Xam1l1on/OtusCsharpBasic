@@ -12,7 +12,7 @@ namespace TaskBot.Core.Application.Commands
     internal class AddTaskCommand : ICommand
     {
         private readonly ITaskRepository _taskRepository;
-        public string CommandName => "/add";
+        public string CommandName => "/addtask";
 
         public AddTaskCommand(ITaskRepository taskRepository)
         {
