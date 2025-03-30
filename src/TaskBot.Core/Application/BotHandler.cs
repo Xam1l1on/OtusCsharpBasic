@@ -3,6 +3,7 @@ using Telegram.Bot;
 using TaskBot.Core.Infrastructure;
 using TaskBot.Core.Application.Commands;
 using TaskBot.Core.Helper;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TaskBot.Core.Application
 {
@@ -20,7 +21,25 @@ namespace TaskBot.Core.Application
             if (update.Message is null) return;
             var chatId = update.Message.Chat.Id;
             var text = update.Message.Text;
-
+            if (text == "/tasks")
+            {
+                var keyboard = new ReplyKeyboardMarkup(new[]
+                {
+                    new KeyboardButton("Добавить"),
+                    new KeyboardButton("Изменить"),
+                    new KeyboardButton("Список"),
+                    new KeyboardButton("Назад")
+                }
+                )
+                { ResizeKeyboard = true };
+                await botClient.SendMessage(chatId, "Выберите действие:", replyMarkup: keyboard, cancellationToken: cancellationToken);
+                return;
+            }
+            else if (text == "Добавить" || text == "/addtask")
+            {
+                await _commandDispatcher.DispatchAsync("/addtask", botClient, chatId, text, cancellationToken);
+                return;
+            }
             var command = text.Split(' ')[0]; // Берем только команду, остальное — аргументы
             await _commandDispatcher.DispatchAsync(command, botClient, chatId, text, cancellationToken);
         }

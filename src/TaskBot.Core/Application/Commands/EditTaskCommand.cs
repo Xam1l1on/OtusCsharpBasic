@@ -9,7 +9,7 @@ namespace TaskBot.Core.Application.Commands
 {
     internal class EditTaskCommand : ICommand
     {
-        public string CommandName => "/edit";
+        public string CommandName => "/edittask";
         public Task ExecuteAsync(ITelegramBotClient botClient, long chatId, string text, CancellationToken cts)
         {
             throw new NotImplementedException();

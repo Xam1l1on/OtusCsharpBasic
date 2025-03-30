@@ -9,7 +9,7 @@ namespace TaskBot.Core.Application.Commands
 {
     internal class DeleteTaskCommand : ICommand
     {
-        public string CommandName => "/delete";
+        public string CommandName => "/deletetask";
         public Task ExecuteAsync(ITelegramBotClient botClient, long chatId, string text, CancellationToken cts)
         {
             throw new NotImplementedException();

@@ -24,7 +24,7 @@ namespace TaskBot.Core.Application.Commands
             var parts = text.Split('|');
             if (parts.Length < 4)
             {
-                await botClient.SendMessage(chatId, "Invalid format. Use: /add | AssignedTo | Title | Description | TaskType", cancellationToken: cancellationToken);
+                await botClient.SendMessage(chatId, "Неправильный формат. Используйте: /addtask | AssignedTo | Title | Description | TaskType", cancellationToken: cancellationToken);
                 return;
             }
 

@@ -9,7 +9,7 @@ namespace TaskBot.Core.Application.Commands
 {
     internal class ListTaskCommand : ICommand
     {
-        public string CommandName => "/list";
+        public string CommandName => "/listtask";
         public Task ExecuteAsync(ITelegramBotClient botClient, long chatId, string text, CancellationToken cts)
         {
             throw new NotImplementedException();
